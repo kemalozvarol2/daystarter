@@ -1,5 +1,5 @@
 # daystarter
-My personal dashboard setup
+My personal dashboard to start the day
 
 Read and configure the `main.py` file for more information.
 
