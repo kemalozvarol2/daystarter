@@ -1,0 +1,97 @@
+</div>
+</div>
+
+<!-- Reddit Section -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
+  <div class="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center">
+    <img class="h-10 w-10 mr-2" src="https://cdn3d.iconscout.com/3d/premium/thumb/reddit-3d-icon-download-in-png-blend-fbx-gltf-file-formats--logo-social-media-technology-pack-logos-icons-8460021.png?f=webp">
+    <h2 class="font-bold ms-auto">from r/webdev</h2>
+  </div>
+  <div class="divide-y divide-gray-100 dark:divide-gray-700">
+    <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700">
+      <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline block mb-1 webdev-news"></a>
+      <span class="text-xs text-gray-500 dark:text-gray-400">from r/webdev</span>
+    </div>
+    <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700">
+      <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline block mb-1 webdev-news"></a>
+      <span class="text-xs text-gray-500 dark:text-gray-400">from r/webdev</span>
+    </div>
+    <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700">
+      <a class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline block mb-1 webdev-news"></a>
+      <span class="text-xs text-gray-500 dark:text-gray-400">from r/webdev</span>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+
+
+<script>
+const urls = [
+"https://www.reddit.com/r/battlestations/rising.json",
+"https://www.reddit.com/r/battlestations/top.json",
+"https://www.reddit.com/r/workstations/rising.json",
+"https://www.reddit.com/r/workstations/top.json"
+];
+
+async function fetchImages() {
+let images = document.querySelectorAll(".inspiration");
+let imgIndex = 0;
+const baseRedditUrl = "https://www.reddit.com";
+
+for (let url of urls) {
+  try {
+      let response = await fetch(url);
+      let data = await response.json();
+      
+      for (let post of data.data.children) {
+          if (post.data.url_overridden_by_dest && post.data.permalink) {
+              let img = images[imgIndex];
+              let link = document.createElement("a");
+              link.href = baseRedditUrl + post.data.permalink;
+              link.target = "_blank";
+              
+              let newImg = document.createElement("img");
+              newImg.src = post.data.url_overridden_by_dest;
+              newImg.className = img.className;
+              
+              link.appendChild(newImg);
+              img.replaceWith(link);
+              
+              imgIndex++;
+              if (imgIndex >= images.length) return;
+          }
+      }
+  } catch (error) {
+      console.error("Error fetching images:", error);
+  }
+}
+}
+
+async function fetchWebDevNews() {
+const url = "https://www.reddit.com/r/webdev/top.json?t=day";
+const baseRedditUrl = "https://www.reddit.com";
+
+try {
+  let response = await fetch(url);
+  let data = await response.json();
+  let newsLinks = document.querySelectorAll(".webdev-news");
+  
+  data.data.children.slice(0, 3).forEach((post, index) => {
+      if (newsLinks[index]) {
+          newsLinks[index].href = baseRedditUrl + post.data.permalink;
+          newsLinks[index].textContent = post.data.title;
+      }
+  });
+} catch (error) {
+  console.error("Error fetching webdev news:", error);
+}
+}
+
+fetchImages();
+fetchWebDevNews();
+
+</script>
