@@ -3,7 +3,7 @@ My personal dashboard setup
 
 Read and configure the `main.py` file for more information.
 
-![https://i.ibb.co/zWmX3wb8/awaw.png]
+![preview](https://i.ibb.co/zWmX3wb8/awaw.png)
 
 This is a project I made for myself to view a summary of my emails, some cool pictures of people's computer setups and some interesting news from webdev community.
 
